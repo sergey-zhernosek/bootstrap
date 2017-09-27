@@ -523,14 +523,14 @@ describe('$uibModal', function() {
     });
 
     it('should not close modal when initial click was on slider and mouseup on backdrop', function() {
-      var selector = 'body > div.modal';
+      var selector = 'div.modal-dialog';
       open({template: '<div>Content</div>'});
 
       expect($document).toHaveModalsOpen(1);
 
-      $document.find('div.modal-dialog').mousedown();
-      $document.find(selector).mouseup();
-      $document.find('div.modal-dialog').click();
+      $document.find(selector).mousedown();
+      $document.find('body > div.modal').mouseup();
+      $document.find(selector).click();
 
       expect($document).toHaveModalsOpen(1);
     });
