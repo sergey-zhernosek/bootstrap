@@ -508,15 +508,31 @@ describe('$uibModal', function() {
 
     it('should support closing on backdrop click', function() {
       var modal = open({template: '<div>Content</div>'});
+      var selector = 'body > div.modal';
       expect($document).toHaveModalsOpen(1);
 
-      $document.find('body > div.modal').click();
+      $document.find(selector).mousedown();
+      $document.find(selector).mouseup();
+
       $animate.flush();
       $rootScope.$digest();
       $animate.flush();
       $rootScope.$digest();
 
       expect($document).toHaveModalsOpen(0);
+    });
+
+    it('should not close modal when initial click was on slider and mouseup on backdrop', function() {
+      var selector = 'body > div.modal';
+      open({template: '<div>Content</div>'});
+
+      expect($document).toHaveModalsOpen(1);
+
+      $document.find('div.modal-dialog').mousedown();
+      $document.find(selector).mouseup();
+      $document.find('div.modal-dialog').click();
+
+      expect($document).toHaveModalsOpen(1);
     });
 
     it('should return to the element which had focus before the dialog was invoked', function() {
